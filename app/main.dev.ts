@@ -22,6 +22,7 @@ export default class AppUpdater {
 }
 
 let mainWindow = null;
+let background = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -68,11 +69,22 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({
     show: false,
     frame: false,
+    title: 'mainWindow',
     width: 1024,
     height: 728
   });
 
+  background = new BrowserWindow({
+    show: false,
+    frame: false,
+    title: 'background',
+    focusable: false,
+    width: 0,
+    height: 0
+  });
+
   mainWindow.loadURL(`file://${__dirname}/app.html`);
+  background.loadURL(`file://${__dirname}/background.html`);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
